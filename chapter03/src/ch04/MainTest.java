@@ -12,6 +12,14 @@ public class MainTest {
 		remoteControllers[1] = refrigerator;
 		remoteControllers[3] = robot;
 		
+		for(int i = 0; i< remoteControllers.length; i++) {
+			remoteControllers[i].turnOn();
+		}
+		for(int i = 0; i< remoteControllers.length; i++) {
+			remoteControllers[i].turnOff();
+		}
+		
+
 	}
 	
 	
