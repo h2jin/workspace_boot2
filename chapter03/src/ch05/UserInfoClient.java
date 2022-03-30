@@ -65,10 +65,10 @@ public class UserInfoClient {
 		info.setUserId(userInputId);
 		info.setPassward(userInputPw);
 		info.setUserName(userName);
-		
+
 		UserInfoDao dao = null;
 
-		String str = "oracle";
+		String str = "mysql";
 
 		if (MYSQL.equals(str)) {
 			dao = new UserInfoMySqlDao();
@@ -78,7 +78,20 @@ public class UserInfoClient {
 			System.out.println("잘못된 입력입니다.");
 		}
 		if (dao != null) {
-			dao.insertUserInfo(info);
+			System.out.println("무엇을 하시겠습니까?\n"
+					+ "1. 저장\t"
+					+ "2. 수정\t"
+					+ "3. 삭제");
+			int choice = sc.nextInt();
+			if (choice == 1) {
+				dao.insertUserInfo(info);				
+			} else if(choice ==2) {
+				dao.updateUserInfo(info);				
+			} else if(choice == 3) {
+				dao.deleteUserInfo(userInputId);				
+			} else {
+				System.out.println("잘못입력하셨습니다.");
+			}
 
 		}
 

@@ -1,6 +1,6 @@
 package ch03;
 
-public class ToyRobot extends HomeAppliances implements Remotecontroller {
+public class ToyRobot extends HomeAppliances implements Remotecontroller, SoundEffect{
 
 	String name;
 
@@ -18,6 +18,12 @@ public class ToyRobot extends HomeAppliances implements Remotecontroller {
 	public void turnOff() {
 		System.out.println("로봇 OFF");
 
+	}
+
+	@Override
+	public void notification() {
+		System.out.println("쾅쾅쾅");
+		
 	}
 
 }
