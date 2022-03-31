@@ -17,7 +17,6 @@ public class BookClient {
 		ch10.Book book = new ch10.Book(bookId, bookTitle, author);
 //		Book book = new Book(bookId, bookTitle, author);
 //		return book;
-		return book;
 	}
 	
 	// 어떤 것을 할지 
@@ -38,3 +37,4 @@ public class BookClient {
 		
 	}
 }
+//

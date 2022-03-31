@@ -1,10 +1,10 @@
-package ch10_1;
+package ch11;
 
 public class Book {
 
+	private int id;
 	private String title;
 	private String author;
-	private int id;
 
 	public Book(int id, String title, String author) {
 		this.id = id;
@@ -16,11 +16,9 @@ public class Book {
 		return id;
 	}
 
-
 	public void setId(int id) {
 		this.id = id;
 	}
-
 
 	public String getTitle() {
 		return title;
@@ -40,13 +38,7 @@ public class Book {
 
 	@Override
 	public String toString() {
-		return "Book [title=" + title + ", author=" + author + ", id=" + id + "]";
-	}
-	
-	
-
-	
-
-	
+		return "Book [id=" + id + ", title=" + title + ", author=" + author + "]";
+	}// 주소값이 아닌 이 메서드가 구현되도록 약속됨.
 
 }

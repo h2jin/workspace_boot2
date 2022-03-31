@@ -1,0 +1,2 @@
+DBTYPE=ORACLE
+//key value 구조

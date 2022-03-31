@@ -8,7 +8,7 @@ public class MainTest {
 		bookClient.deleteBook("홍길동전");
 		
 		BookDaoMySql bookDaoMySql = new BookDaoMySql();
-		bookDaoMySql.addBook(book);
+//		bookDaoMySql.addBook(book);
 		
 		//실행의 흐름 만들기
 		
