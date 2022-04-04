@@ -2,18 +2,18 @@ package ch11;
 
 import java.util.Scanner;
 
-public class MainTest {
+public class BookSystem {
 	public static void main(String[] args) {
 		
-		String str = "             문자열 공백 제거";
-		System.out.println(str);
-		String removeBlank = str.trim(); // 앞의 공백이나 뒤의 공백 제거해줌. 중간의 공백은 제거X
-		System.out.println(removeBlank);
-		// replace 사용
-		String str2 = removeBlank.replace(" ", "");
-		System.out.println(str2);
+//		String str = "             문자열 공백 제거";
+//		System.out.println(str);
+//		String removeBlank = str.trim(); // 앞의 공백이나 뒤의 공백 제거해줌. 중간의 공백은 제거X
+//		System.out.println(removeBlank);
+//		// replace 사용
+//		String str2 = removeBlank.replace(" ", "");
+//		System.out.println(str2);
 		
-		System.out.println(removeBlankString("         공백     제거    확인      1111"));
+//		System.out.println(removeBlankString("         공백     제거    확인      1111"));
 		
 		BookClient bookClient = new BookClient();
 		BookService bookArraylist = new BookArraylist();

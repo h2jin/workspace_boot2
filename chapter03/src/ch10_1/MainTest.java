@@ -39,6 +39,8 @@ public class MainTest {
 				// 책 수정
 				System.out.println("수정하려는 책의 제목을 입력해주세요");
 				String savedtitle = sc.nextLine();
+				boolean flag = false;
+				//TODO
 				System.out.println("새로운 제목을 입력해주세요");
 				String title = sc.nextLine();
 				System.out.println("새로운 작가 이름을 입력해주세요");

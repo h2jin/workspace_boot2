@@ -6,15 +6,15 @@ public class BookArray implements BookService {
 
 	@Override
 	public void addBook(Book book) {
-		System.out.println("저장합니다.");
 		for (int i = 0; i < books.length; i++) {
 			if (books[i] == null) {
 				books[i] = book;
+				System.out.println("책을 등록했습니다.");
 				showAllBook();
 				return;
 			}
 		}
-		System.out.println("저장할 공간이 부족합니다.");
+		System.out.println("책을 등록할 수 없습니다.");
 
 	}
 
@@ -29,7 +29,7 @@ public class BookArray implements BookService {
 				showAllBook();
 			}
 		}
-		System.out.println("책의 이름이 존재하지 않습니다.");
+		System.out.println("정보를 찾을 수 없습니다.");
 
 	}
 
@@ -40,7 +40,7 @@ public class BookArray implements BookService {
 				continue;
 			} else if (books[i].getTitle().equals(title)) {
 				books[i] = null;
-				System.out.println("삭제하였습니다.");
+				System.out.println("데이터를 삭제하였습니다.");
 				showAllBook();
 				return;
 			}
@@ -68,7 +68,9 @@ public class BookArray implements BookService {
 			if (books[i] == null) {
 				continue;
 			} else {
-				System.out.println(">>>>>>>현재 저장된 데이터<<<<<<<" + books[i]);
+				System.out.println("=======현재 저장된 데이터=======\n" 
+			+ books[i] + "\n" 
+						+ "===============================");
 			}
 		}
 

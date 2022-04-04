@@ -33,16 +33,28 @@ public class BookArraylist implements BookService {
 //	}
 	@Override
 	public void updateBook(String title, Book book) {
+		
 		Scanner sc = new Scanner(System.in);
+		boolean flag = false;
 		System.out.println("수정하려는 책의 제목을 입력해주세요");
 		String savedTitle = sc.nextLine();
+		int bookIndex = -1;
+		for (int i = 0; i < books.size(); i++) {
+			if (books.get(i).getTitle().equals(title)) {
+				bookIndex = i;
+			}
+		}
 		System.out.println("새로운 제목을 입력해주세요");
 		String newTitle = sc.nextLine();
 		System.out.println("새로운 작가 이름을 입력해주세요");
 		String author = sc.nextLine();
-		for (int i = 0; i < books.size(); i++) {
-			
+		if (bookIndex == -1) {
+			System.out.println("책이 존재하지 않습니다."); // i의 값이 그대로 -1이면 존재하지 않는 책
+		} else {
+			books.set(bookIndex, book); // i의 값이 변경되면 존재하는 책이므로 책의 값을 수정
 		}
+		showAllBook();
+		
 		
 		
 	}

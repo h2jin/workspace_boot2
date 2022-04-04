@@ -5,7 +5,14 @@ import java.util.ArrayList;
 public class BookArraylist implements BookService {
 
 	private ArrayList<Book> books = new ArrayList<Book>();
-	
+
+	public BookArraylist() {
+		Book book1 = new Book(1, "흐르는 강물처럼", "미상");
+		BookClient.serialBookNumber = 5;
+		books.add(book1);
+		
+	}
+
 	/**
 	 * Book 객체를 arraylist 자료구조에 저장하기
 	 */
@@ -15,10 +22,9 @@ public class BookArraylist implements BookService {
 		books.add(book);
 		showAllBook();
 	}
-	
+
 	/*
-	 * 책의 타이틀로 책 존재여부 확인
-	 * 있다면 매개 변수로 넘어오는 Book 객체를 arraylist에 수정한다.
+	 * 책의 타이틀로 책 존재여부 확인 있다면 매개 변수로 넘어오는 Book 객체를 arraylist에 수정한다.
 	 */
 
 	@Override
@@ -45,7 +51,7 @@ public class BookArraylist implements BookService {
 
 	}
 	/*
-	 *  책 타이틀로 arraylist에 객체를 삭제한다.
+	 * 책 타이틀로 arraylist에 객체를 삭제한다.
 	 */
 
 	@Override
@@ -67,9 +73,9 @@ public class BookArraylist implements BookService {
 		showAllBook();
 
 	}
-	
+
 	/*
-	 *  책 제목에 해당하는 객체에 정보를 출력합니다.
+	 * 책 제목에 해당하는 객체에 정보를 출력합니다.
 	 */
 	@Override
 	public void selectedByTitleBook(String title) {
@@ -82,9 +88,9 @@ public class BookArraylist implements BookService {
 		}
 		System.out.println(title + "제목으로 책을 찾을 수 없습니다.");
 	}
-	
+
 	/*
-	 *  모든 데이터를 출력
+	 * 모든 데이터를 출력
 	 */
 	@Override
 	public void showAllBook() {
