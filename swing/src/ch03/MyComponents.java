@@ -41,7 +41,7 @@ public class MyComponents extends JFrame {
 		label = new JLabel("label");
 		textField = new JTextField("hint", 20);
 		passWordField = new JPasswordField(20);
-		checkBox = new JCheckBox("chexkBox", true);
+		checkBox = new JCheckBox("checkBox", true);
 
 	}
 
