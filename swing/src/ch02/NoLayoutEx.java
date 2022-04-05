@@ -15,7 +15,7 @@ public class NoLayoutEx extends JFrame{
 	
 	public NoLayoutEx() {
 		initData();
-		setInitData();
+		setInitLayout();
 	}
 	
 	private void initData() {
@@ -30,7 +30,7 @@ public class NoLayoutEx extends JFrame{
 		buttons.add(new JButton("3"));
 		
 	}
-	private void setInitData() {
+	private void setInitLayout() {
 		setVisible(true);
 		setLayout(null);
 		for (int i = 0; i < buttons.size(); i++) {

@@ -14,16 +14,16 @@ public class BorderLayoutEx extends JFrame{
 	private BorderLayout borderLayout;
 	
 	public BorderLayoutEx() {
-		setTitle("테스트1");
-		setSize(500, 500);
-		setVisible(true);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//super에 있지만 생략 가능
 		initData();
 		setInitLayout();
 	}
 	
 	private void initData() {
+		setTitle("테스트1");
+		setSize(500, 500);
+		setVisible(true);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		button1 = new JButton("button1");
 		button2 = new JButton("button2");
 		button3 = new JButton("button3");

@@ -21,7 +21,7 @@ public class MyTwoPanel extends JFrame {
 	
 	public MyTwoPanel() {
 		initDate();
-		setInitDate();
+		setInitLayout();
 	}
 	
 	private void initDate() {
@@ -43,7 +43,7 @@ public class MyTwoPanel extends JFrame {
 		button4 = new Button("button4");
 		button5 = new Button("button5");
 	}
-	private void setInitDate() {
+	private void setInitLayout() {
 		setVisible(true);
 		setLayout(new GridLayout(2,1)); // 줄, 칸 전체레이아웃 설정
 		panel1.setLayout(new FlowLayout(FlowLayout.LEFT)); //각 그룹별로도 레이아웃 설정 가능
