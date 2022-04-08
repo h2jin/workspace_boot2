@@ -1,4 +1,4 @@
-package miniGame;
+package tenco.com.test_08;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -7,58 +7,54 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-public class Frame extends JFrame {
+public class BubbleFrame extends JFrame {
 
-	private JLabel background;
+	private JLabel backgroundMqp;
 	private Player player;
-	private Monster monster;
 
-	// 프레임 벗어나면 나가지 안도록 만들기
-	/* 플레이어의 X좌표가 0 이면 x좌표는 0
-	 * 플레이어의 y좌표가 max이면 y 좌표는 max
-	 */
-
-	public Frame() {
-		initData();
-		setinitLayout();
-		addEventListener();
-		setVisible(true);
-
+	public BubbleFrame() {
+		initObject();
+		initSetting();
+		initListener();
+		setVisible(true); // 마지막에 보여주도록 뒤로 뺌.
 	}
 
-	public void initData() {
-		background = new JLabel(new ImageIcon("images/minigame.jpg"));// 오류나면 확인해보기!
-		setContentPane(background);
+	private void initObject() {
+		backgroundMqp = new JLabel(new ImageIcon("images/backgroundMapService.png"));
+		// 예외처리 안해줘도 되지만 오류가 찍히지 않아 디버깅하기가 힘들다.
+		setContentPane(backgroundMqp);
 		player = new Player();
 		add(player);
-		monster = new Monster();
-		add(monster);
+		
+		
+
 	}
 
-	public void setinitLayout() {
+	private void initSetting() {
+		setSize(1000, 640);
+		setLayout(null); // absolute (좌표값으로 자유롭게 그림을 그릴 수 있다.)
 
-		setTitle("미니게임");
-		setSize(1500, 1000);
-		setLayout(null);
-		setLocationRelativeTo(null);
+		setLocationRelativeTo(null); // JFrame 가운데 배치하기
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	}
 
-	private void addEventListener() {
-
+	private void initListener() {
 		addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
+//				System.out.println(e.getKeyCode());
+
 				switch (e.getKeyCode()) {
 				case KeyEvent.VK_LEFT:
 					if (!player.isLeft()) {
-						player.left();
+						player.left(); // isleft가 아닐 경우에만 player.left가 됨.
 					}
 					break;
 				case KeyEvent.VK_RIGHT:
 					if (!player.isRight()) {
 						player.right();
+
 					}
 					break;
 				case KeyEvent.VK_UP:
@@ -66,11 +62,13 @@ public class Frame extends JFrame {
 						player.up();
 					}
 					break;
+
 				default:
 					break;
 				}
-			}// end of keypressed
+			}// end of keyPressed
 
+			// 키보드 해제 이벤트 처리
 			@Override
 			public void keyReleased(KeyEvent e) {
 				switch (e.getKeyCode()) {
@@ -83,12 +81,13 @@ public class Frame extends JFrame {
 				default:
 					break;
 				}
-			}
-		});// end of addKeyListener
-	}// end of addEventListener
+			}// key released
+
+		});
+	}
 
 	public static void main(String[] args) {
-		new Frame();
-	}// end of main
+		new BubbleFrame();
+	}
 
 }
