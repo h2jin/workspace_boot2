@@ -3,6 +3,12 @@ package tenco.com.test_17;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+
 public class Player extends JLabel implements Moveable {
 
 	// 위치 상태
@@ -19,37 +25,6 @@ public class Player extends JLabel implements Moveable {
 	private boolean up;
 	private boolean down;
 
-	public int getX() {
-		return x;
-	}
-
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	public boolean isLeftWallCrash() {
-		return leftWallCrash;
-	}
-
-	public void setLeftWallCrash(boolean leftWallCrash) {
-		this.leftWallCrash = leftWallCrash;
-	}
-
-	public boolean isRightWallCrash() {
-		return rightWallCrash;
-	}
-
-	public void setRightWallCrash(boolean rightWallCrash) {
-		this.rightWallCrash = rightWallCrash;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public void setY(int y) {
-		this.y = y;
-	}
 
 	// 플레이어 속도 상태
 	private final int SPEED = 4;
@@ -59,34 +34,8 @@ public class Player extends JLabel implements Moveable {
 	private boolean leftWallCrash;
 	private boolean rightWallCrash;
 
-	public void setLeft(boolean left) {
-		this.left = left;
-	}
-
-	public void setRight(boolean right) {
-		this.right = right;
-	}
-
-	public void setUp(boolean up) {
-		this.up = up;
-	}
-
-	public void setDown(boolean down) {
-		this.down = down;
-	}
-
 	private ImageIcon playerR;
 	private ImageIcon playerL;
-
-	
-	
-	public PlayerWay getPlayerWay() {
-		return playerWay;
-	}
-
-	public void setPlayerWay(PlayerWay playerWay) {
-		this.playerWay = playerWay;
-	}
 
 	public Player() {
 		initObject();
@@ -242,22 +191,7 @@ public class Player extends JLabel implements Moveable {
 
 	}
 
-	public boolean isLeft() {
-		return left;
-	}
 
-	public boolean isRight() {
-		return right;
-	}
-
-	public boolean isUp() {
-		return up;
-	}
-
-	public boolean isDown() {
-		return down;
-	}
-	
 	//메서드 이름 동사+명사 많이 활용. 메서드는 객체의 행위이기 때문에
 	public Bubble attackBubble() {
 		return new Bubble(this);
