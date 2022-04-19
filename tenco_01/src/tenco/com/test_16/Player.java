@@ -124,6 +124,21 @@ public class Player extends JLabel implements Moveable {
 		setLocation(x, y); // 위치만
 
 	}
+	
+	public void initThread() {
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				if(playerWay == PlayerWay.LEFT) {
+					
+				}
+				
+			}
+		}).start();
+	}
+	
+	
 
 	// 이벤트 핸들러
 	@Override

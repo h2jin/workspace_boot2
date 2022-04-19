@@ -3,6 +3,8 @@ package tenco.com.test_07;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import lombok.Data;
+
 public class Player extends JLabel implements Moveable {
 
 	// 위치 상태

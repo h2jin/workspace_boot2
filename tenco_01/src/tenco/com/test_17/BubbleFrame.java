@@ -18,7 +18,6 @@ public class BubbleFrame extends JFrame {
 
 	private JLabel backgroundMqp;
 	private Player player;
-
 	public BubbleFrame() {
 		initObject();
 		initSetting();

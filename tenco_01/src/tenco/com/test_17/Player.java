@@ -77,8 +77,8 @@ public class Player extends JLabel implements Moveable {
 	// 이벤트 핸들러
 	@Override
 	public void left() {
-		System.out.println("left");
 		playerWay = PlayerWay.LEFT;
+		System.out.println(playerWay);
 		left = true;
 		new Thread(new Runnable() {
 

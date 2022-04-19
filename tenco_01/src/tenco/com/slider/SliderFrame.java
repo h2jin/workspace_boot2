@@ -62,11 +62,8 @@ public class SliderFrame extends JFrame{
 						}
 					}).start();;
 					break;
-
-				default:
-					break;
 				}
-				super.keyPressed(e);
+//				super.keyPressed(e);
 				
 			}
 		});
