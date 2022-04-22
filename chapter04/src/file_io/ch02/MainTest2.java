@@ -46,7 +46,7 @@ public class MainTest2 {
 //		}
 
 		// System.in --> 키보드 연결(스트림 연결)
-		System.out.println("끝");
+		System.out.println("\n끝");
 
 	}
 

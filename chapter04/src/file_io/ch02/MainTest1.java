@@ -21,7 +21,7 @@ public class MainTest1 {
 			System.out.println((char)fis.read());
 			System.out.println((char)fis.read());
 			System.out.println((char)fis.read());
-			System.out.println((char)fis.read()); // 더이상 읽을 것이 없으면 -1 출력됨.
+			System.out.println(fis.read()); // 더이상 읽을 것이 없으면 -1 출력됨.
 			
 		} catch (FileNotFoundException e) {
 			System.out.println("파일이 없습니다.");
