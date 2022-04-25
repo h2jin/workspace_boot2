@@ -336,7 +336,7 @@ public class Server extends JFrame implements ActionListener {
 			}
 		}
 		
-	}
+	} // userInfo 내부클래스 끝
 
 	// 내부클래스
 	class RoomInfomation {
@@ -381,7 +381,7 @@ public class Server extends JFrame implements ActionListener {
 				}
 			}
 		}
-	}
+	} // roomInfo 내부 클래스 끝
 	public static void main(String[] args) {
 		new Server();
 	}
