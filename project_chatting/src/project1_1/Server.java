@@ -1,4 +1,4 @@
-package project1;
+package project1_1;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,6 +22,8 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 public class Server extends JFrame implements ActionListener {
+	
+	Server mContext = this;
 
 	// 변수
 	private JPanel panel;
@@ -37,7 +39,7 @@ public class Server extends JFrame implements ActionListener {
 	private int port;
 
 	// 벡터리스트
-//	private Vector<Clients> clientsVector = new Vector<Clients>();
+	private Vector<UserSocket> sockets = new Vector<UserSocket>();
 //	private Vector<CreatedRoom> roomListVector = new Vector<CreatedRoom>();
 
 	// 생성자
@@ -88,6 +90,46 @@ public class Server extends JFrame implements ActionListener {
 		setPortTextField.addActionListener(this);
 		
 	}
+	
+	private void creatServer() {
+		try {
+			serverSocket = new ServerSocket(port);
+			chattingTextArea.append("서버를 시작합니다.\n");
+			connectClient();
+			
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "잘못된 포트번호입니다", "알림", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+			creatServerBtn.setEnabled(true);
+			endServerBtn.setEnabled(false);
+		}
+	}
+	
+	private void connectClient() {
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				while (true) {
+					try {
+						chattingTextArea.append("연결중...\n");
+						socket = serverSocket.accept();
+						UserSocket userSocket = new UserSocket(mContext, socket);
+						userSocket.start();
+						sockets.add(userSocket);
+						// 스레드 실행
+					} catch (Exception e) {
+						System.out.println("서버 소켓 연결 오류");
+						e.printStackTrace();
+					}
+
+				}
+
+			}
+		}).start();;
+		
+	}
+	
 
 	// 클라이언트와 연결 - 스레드 사용 (다중접속 가능)
 	// 이벤트 리스너
@@ -98,21 +140,8 @@ public class Server extends JFrame implements ActionListener {
 				JOptionPane.showMessageDialog(null, "포트번호를 입력해주세요.", "알림", JOptionPane.ERROR_MESSAGE);
 			} else if (setPortTextField.getText().length() != 0) {
 				port = Integer.parseInt(setPortTextField.getText());
-				try {
-					serverSocket = new ServerSocket(port);
-					chattingTextArea.append("서버를 시작합니다.\n");
-					connectClient(); // 포트번호 사용가능 확인하고, 연결 시작
-					setPortTextField.setEnabled(false);
-//					setPortTextField.setEditable(false);
-					creatServerBtn.setEnabled(false);
-					endServerBtn.setEnabled(true);
-				} catch (IOException e1) {
-					JOptionPane.showMessageDialog(null, "잘못된 포트번호입니다", "알림", JOptionPane.ERROR_MESSAGE);
-					e1.printStackTrace();
-					creatServerBtn.setEnabled(true);
-					endServerBtn.setEnabled(false);
-				}
-
+				// 서버 생성
+				creatServer();
 			}
 		} else if (e.getSource() == endServerBtn) {
 			try {
@@ -128,36 +157,15 @@ public class Server extends JFrame implements ActionListener {
 
 	}
 
-	private void connectClient() {
-		Thread thread = new Thread(new Runnable() {
 
-			@Override
-			public void run() {
-				while (true) {
-					try {
-						chattingTextArea.append("연결중...\n");
-						socket = serverSocket.accept();
-						Clients client = new Clients(socket);
-						// 스레드 실행
-					} catch (Exception e) {
-						System.out.println("서버 소켓 연결 오류");
-						e.printStackTrace();
-					}
-
-				}
-
-			}
-		});
-		thread.start();
-	}
 	// 버튼을 누르면 파일에 저장
 
 	// 전체 사용자에게 전송
 	private void broadCast(String string) {
-//		for(int i = 0; i < clientsVector.size(); i++) {
-//			Clients client = clientsVector.elementAt(i);
-//			client.sendMessage(string);
-//		}
+		for(int i = 0; i < sockets.size(); i++) {
+			UserSocket userSocket = sockets.elementAt(i);
+			userSocket.sendMessage(string);
+		}
 	}
 
 	// 내부클래스 클래스 이름 설정!
@@ -234,7 +242,7 @@ public class Server extends JFrame implements ActionListener {
 			}
 		}
 
-		// 스레드 상속 or 포함 결정하기
+
 		Thread thread = new Thread(new Runnable() {
 
 			@Override
@@ -297,5 +305,7 @@ public class Server extends JFrame implements ActionListener {
 	public static void main(String[] args) {
 		new Server();
 	}
+	
+	// socket_ex ch06 참고 - 콜백메서드
 
 }

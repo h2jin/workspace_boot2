@@ -1,4 +1,4 @@
-package project1;
+package project2;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -24,12 +24,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-public class Client extends JFrame implements ActionListener {
-
-	// 액션 리스너를 상속받아서 처리함.
-
+public class Client extends JFrame implements  ActionListener{
+	
 	private JPanel panel; // ?
 	private JPanel panel2; // ?
 	private JTextField ipTextField;
@@ -58,51 +57,45 @@ public class Client extends JFrame implements ActionListener {
 	private DataOutputStream dataOutputStream;
 
 	// 벡터
-//	private Vector<String> userListVector = new Vector<String>();
-//	private Vector<String> roomListVector = new Vector<String>();
+	private Vector<String> userListVector = new Vector<String>();
+	private Vector<String> roomListVector = new Vector<String>();
 	private StringTokenizer stringTokenizer;
 	private String setRoomName; // 사용자가 설정한 방의 이름
 	
-	// 콜백메서드 ==========================================================================
-//	CallbackCheckMessage callbackCheckMessage;
-	//=====================================================================================
 
-	// 생성자
+	
 	public Client() {
-		initGUIData();
-		addListener();
+//		initGUIData();
+//		addListener();
 	}
-
-	// 화면 프레임 만들기
+	
 	private void initGUIData() {
-		setTitle("해피챗");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(500, 500);
-		setLocationRelativeTo(null);
+		setBounds(100, 100, 474, 483);
 		panel = new JPanel();
-		panel.setBorder(new EmptyBorder(5,5,5,5));
+		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(panel);
 		panel.setLayout(null);
-		
+
 		JTabbedPane Jtab = new JTabbedPane(JTabbedPane.TOP);
 		Jtab.setBounds(12, 27, 328, 407);
 		panel.add(Jtab);
-		
+
 		panel2 = new JPanel();
-		Jtab.addTab("서버 연결", null, panel2, null);
+		Jtab.addTab("로그인", null, panel2, null);
 		panel2.setLayout(null);
-		
+
 		JLabel hostIP_lbl = new JLabel("Host_IP ");
 		hostIP_lbl.setFont(new Font("휴먼모음T", Font.BOLD, 13));
 		hostIP_lbl.setBounds(12, 25, 91, 15);
 		panel2.add(hostIP_lbl);
-		
+
 		ipTextField = new JTextField();
 		ipTextField.setFont(new Font("휴먼모음T", Font.BOLD, 13));
 		ipTextField.setBounds(112, 21, 199, 21);
 		panel2.add(ipTextField);
 		ipTextField.setColumns(10);
-		
+
 		JLabel port_lbl = new JLabel("Server_Port");
 		port_lbl.setFont(new Font("휴먼모음T", Font.BOLD, 13));
 		port_lbl.setBounds(12, 72, 91, 15);
@@ -111,7 +104,7 @@ public class Client extends JFrame implements ActionListener {
 		portTextField = new JTextField();
 		portTextField.setFont(new Font("휴먼모음T", Font.BOLD, 13));
 		portTextField.setBounds(112, 69, 199, 21);
-		panel2.add(portTextField);
+		portTextField.add(portTextField);
 		portTextField.setColumns(10);
 
 		JLabel userID_lbl = new JLabel("User_ID");
@@ -123,7 +116,7 @@ public class Client extends JFrame implements ActionListener {
 		nicknameTextField.setBounds(112, 119, 199, 21);
 		panel2.add(nicknameTextField);
 		nicknameTextField.setColumns(10);
-		
+
 		JLabel img_lbl = new JLabel("input the image");
 		img_lbl.setIcon(new ImageIcon());
 		img_lbl.setBounds(12, 213, 299, 155);
@@ -133,11 +126,46 @@ public class Client extends JFrame implements ActionListener {
 		connectBtn.setFont(new Font("휴먼모음T", Font.BOLD, 12));
 		connectBtn.setBounds(214, 162, 97, 23);
 		panel2.add(connectBtn);
-		
+
+		JPanel panel = new JPanel();
+		Jtab.addTab("대기실", null, panel, null);
+		panel.setLayout(null);
+
+		JLabel totalList_lbl = new JLabel("전체접속자");
+		totalList_lbl.setHorizontalAlignment(SwingConstants.CENTER);
+		totalList_lbl.setFont(new Font("휴먼모음T", Font.BOLD, 13));
+		totalList_lbl.setBounds(12, 28, 102, 15);
+		panel.add(totalList_lbl);
+
+		JLabel roomList_lbl = new JLabel("방 리스트");
+		roomList_lbl.setHorizontalAlignment(SwingConstants.CENTER);
+		roomList_lbl.setFont(new Font("휴먼모음T", Font.BOLD, 13));
+		roomList_lbl.setBounds(209, 27, 102, 15);
+		panel.add(roomList_lbl);
+
+		totalUserList = new JList();
+		totalUserList.setBounds(12, 69, 102, 257);
+		panel.add(totalUserList);
+
+		roomList = new JList();
+		roomList.setBounds(209, 69, 102, 257);
+		panel.add(roomList);
+
+//		sendNote_btn = new JButton("쪽지보내기");
+//		sendNote_btn.setFont(new Font("휴먼모음T", Font.BOLD, 12));
+//		sendNote_btn.setBounds(12, 345, 102, 23);
+//		panel.add(sendNote_btn);
+
+		joinRoomBtn = new JButton("채팅방참여");
+		joinRoomBtn.setFont(new Font("휴먼모음T", Font.BOLD, 12));
+		joinRoomBtn.setBounds(209, 345, 102, 23);
+		panel.add(joinRoomBtn);
+		ipTextField.setText("127.0.0.1");
+
 		JPanel panel_2 = new JPanel();
 		Jtab.addTab("채팅", null, panel_2, null);
 		panel_2.setLayout(null);
-		
+
 		showChattingTextArea = new JTextArea();
 		showChattingTextArea.setEnabled(false);
 		showChattingTextArea.setEditable(false);
@@ -160,13 +188,24 @@ public class Client extends JFrame implements ActionListener {
 		scrollPane.setEnabled(false);
 		scrollPane.setBounds(0, 0, 323, 337);
 		panel_2.add(scrollPane);
-		
+
+		makeRoomBtn = new JButton("방 만들기");
+		makeRoomBtn.setFont(new Font("휴먼모음T", Font.BOLD, 11));
+		makeRoomBtn.setBounds(352, 93, 97, 23);
+		panel.add(makeRoomBtn);
+
+		outRoomBtn = new JButton("방 나가기");
+		outRoomBtn.setFont(new Font("휴먼모음T", Font.BOLD, 12));
+		outRoomBtn.setBounds(352, 150, 97, 23);
+		panel.add(outRoomBtn);
+		outRoomBtn.setEnabled(false);
+		endBtn = new JButton("종료");
+		endBtn.setFont(new Font("휴먼모음T", Font.BOLD, 12));
+		endBtn.setBounds(352, 398, 97, 23);
+		panel.add(endBtn);
 		setVisible(true);
 	}
-
-	// 기능 만들기
-
-	// 서버에 접속
+	
 	private void AccessServer() { // access?
 
 		try {
@@ -181,9 +220,7 @@ public class Client extends JFrame implements ActionListener {
 		}
 
 	}
-
-	// 입출력 스트림 설정, 서버로부터 메세지 받는 기능
-
+	
 	private void netWork() { // 메서드 이름 생각해보기
 		try {
 			inputStream = socket.getInputStream();
@@ -192,8 +229,8 @@ public class Client extends JFrame implements ActionListener {
 			dataOutputStream = new DataOutputStream(outputStream);
 
 			nickname = nicknameTextField.getText().trim(); // 문자열 앞 뒤 공백 제거
-//			userListVector.add(nickname);
-//			totalUserList.setListData(userListVector); // ?? 리스트에 유저백터(배열)추가
+			userListVector.add(nickname);
+			totalUserList.setListData(userListVector); // ?? 리스트에 유저백터(배열)추가
 			// 유저 닉네임 서버에 보내주기
 
 			// 서버로부터 정보를 받는 스레드 생성
@@ -222,17 +259,7 @@ public class Client extends JFrame implements ActionListener {
 		}
 		connectBtn.setEnabled(false); // 연결 됐으므로 비활성화
 	}
-
-	// 서버로부터 받은 메세지를 구분하여 기능 처리
-	private void divideGetMessage(String str) {
-
-		stringTokenizer = new StringTokenizer(str, "/");
-
-		String protocol = stringTokenizer.nextToken();
-		String getMessage = stringTokenizer.nextToken(); // TODO 서버에서 보내는 메세지 항상 바뀜. 변수이름 나중에 바꿔주기!!
-
-	}
-
+	
 	// 서버에게 메세지를 보내기
 	private void sendMessage(String msg) {
 		try {
@@ -246,15 +273,77 @@ public class Client extends JFrame implements ActionListener {
 
 	}
 	
+	CallbackCheckMessage callbackCheckMessage = new CallbackCheckMessage() {
+		
+		@Override
+		public void sendBtnClicked() {
+			System.out.println("전송버튼");
+			if (chattingTextField.getText().replaceAll(" ", "") == null) {
+				JOptionPane.showMessageDialog(null, "보낼 메세지를 입력해 주세요", "알림", JOptionPane.ERROR_MESSAGE);
+				chattingTextField.requestFocus();
+			} else {
+				sendMessage("Send/" + setRoomName + "/" + chattingTextField.getText().trim());
+			}
+		}
+		
+		@Override
+		public void makeRoomBtnClicked() {
+			System.out.println("방 만들기");
+			String roomName = JOptionPane.showInputDialog("방 이름을 입력해주세요");
+			if (roomName != null) {
+				sendMessage("CreateRoom/" + roomName);
+			}
+		}
+		@Override
+		public void joinRoomBtnClicked() {
+			System.out.println("방 들어가기");
+			String selectedRoom = (String) roomList.getSelectedValue();
+			if (selectedRoom == null) {
+				JOptionPane.showMessageDialog(null, "방을 선택해주세요", "알림", JOptionPane.ERROR_MESSAGE);
+			} else {
+				sendMessage("JoinRoom/" + nickname + "/" + selectedRoom);
+			}
+		}
+		@Override
+		public void enterKeyboard() {
+			if (chattingTextField.getText().replaceAll(" ", "") == null) {
+				JOptionPane.showMessageDialog(null, "보낼 메세지를 입력해 주세요", "알림", JOptionPane.ERROR_MESSAGE);
+				chattingTextField.requestFocus();
+			} else {
+				sendMessage("Send/" + setRoomName + "/" + chattingTextField.getText());
+			}
+			
+		}
+		@Override
+		public void outRoomBtnClicked() {
+			System.out.println("방 나가기 버튼");
+			sendMessage("OutRoom/" + setRoomName);
+			
+		}
+		@Override
+		public void whisperingBtnClicked() {
+			
+		}
+		
+		@Override
+		public void changeNicknameBtnClicked() {
+			// TODO Auto-generated method stub
+			
+		}
+
+	};
+
+	
 	private void addListener() {
 		connectBtn.addActionListener(this);
-		ipTextField.addActionListener(this);
-		portTextField.addActionListener(this);
-		nicknameTextField.addActionListener(this);
-		chattingTextField.addActionListener(this);
 		sendBtn.addActionListener(this);
+		joinRoomBtn.addActionListener(this);
+		chattingTextField.addActionListener(this);
+		endBtn.addActionListener(this);
+		makeRoomBtn.addActionListener(this);
+		outRoomBtn.addActionListener(this);
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == connectBtn) {
@@ -275,53 +364,24 @@ public class Client extends JFrame implements ActionListener {
 				AccessServer();
 				ipTextField.setEnabled(false);
 				portTextField.setEnabled(false);
-				System.out.println("서버와 연결 성공!");
 			}
 		} else if (e.getSource() == sendBtn) {
-//			callbackCheckMessage.sendBtnClicked();
-			System.out.println("전송버튼");
-			if (chattingTextField.getText().replaceAll(" ", "") == null) {
-				JOptionPane.showMessageDialog(null, "보낼 메세지를 입력해 주세요", "알림", JOptionPane.ERROR_MESSAGE);
-				chattingTextField.requestFocus();
-			} else {
-				sendMessage("Send/" + setRoomName + "/" + chattingTextField.getText().trim());
-
-			}
+			callbackCheckMessage.sendBtnClicked();
 		} else if (e.getSource() == makeRoomBtn) {
-			System.out.println("방 만들기");
-			String roomName = JOptionPane.showInputDialog("방 이름을 입력해주세요");
-			if (roomName != null) {
-				sendMessage("CreateRoom/" + roomName);
-			}
+			callbackCheckMessage.makeRoomBtnClicked();
 		} else if (e.getSource() == joinRoomBtn) {
-			System.out.println("방 들어가기");
-			String selectedRoom = (String) roomList.getSelectedValue();
-			if (selectedRoom == null) {
-				JOptionPane.showMessageDialog(null, "방을 선택해주세요", "알림", JOptionPane.ERROR_MESSAGE);
-			} else {
-				sendMessage("JoinRoom/" + nickname + "/" + selectedRoom);
-			}
+			callbackCheckMessage.joinRoomBtnClicked();
 		} else if (e.getSource() == chattingTextField) {
-			if (chattingTextField.getText().replaceAll(" ", "") == null) {
-				JOptionPane.showMessageDialog(null, "보낼 메세지를 입력해 주세요", "알림", JOptionPane.ERROR_MESSAGE);
-				chattingTextField.requestFocus();
-			} else {
-				sendMessage("Send/" + setRoomName + "/" + chattingTextField.getText());
-			}
+			callbackCheckMessage.enterKeyboard();
 		} else if (e.getSource() == outRoomBtn) {
-			System.out.println("방 나가기 버튼");
-			sendMessage("OutRoom/" + setRoomName);
-			
+			callbackCheckMessage.outRoomBtnClicked();
 		} else if (e.getSource() == endBtn) {
 			System.out.println("종료 버튼");
 			System.exit(0);
 		}
-
+		
 	}
 	
-	public static void main(String[] args) {
-		new Client();
-	}
 
 
 

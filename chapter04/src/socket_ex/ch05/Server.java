@@ -39,8 +39,8 @@ public class Server extends JFrame implements ActionListener {
 	private int port;
 
 	// 그외 자원들
-	private Vector<UserInfomation> vc = new Vector<UserInfomation>(); // 벡터의 타입이 -> UserInformation. 벡터를 쓴 이유.. --사용자 데이터
-	private Vector<RoomInfomation> vc_room = new Vector<RoomInfomation>(); //동기화처리 때문에 --방 데이터
+	private Vector<UserInfomation> vc = new Vector<UserInfomation>();
+	private Vector<RoomInfomation> vc_room = new Vector<RoomInfomation>();
 	
 
 	public Server() {
@@ -98,26 +98,26 @@ public class Server extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		if (e.getSource() == btnServerStart) { //서버 실행 버튼 누름
+		if (e.getSource() == btnServerStart) {
 			if (tfPort.getText().length() == 0) {
 				System.out.println("  값을 입력 하세요 ");
 			} else if (tfPort.getText().length() != 0) {
 
 				// 값을 가져와서 port변수에 저장시키기
 				port = Integer.parseInt(tfPort.getText());
-				startNetwork(); // 서버 실행 시 startNetwork 메서드 실행 
-				tfPort.setEditable(false); // 텍스트 필드 값 수정 막아줌
-				btnServerStart.setEnabled(false); // 서버 실행 버튼 비활성화
-				btnServerStop.setEnabled(true); // 서버 중지 버튼 활성화
+				startNetwork();
+				tfPort.setEditable(false);
+				btnServerStart.setEnabled(false);
+				btnServerStop.setEnabled(true);
 			}
 
-		} else if (e.getSource() == btnServerStop) { // 서버 중지 버튼 누름
+		} else if (e.getSource() == btnServerStop) {
 			try {
-				server_socket.close(); // 다 닫아줌!
+				server_socket.close();
 				vc.removeAllElements();
 				vc_room.removeAllElements();
 				tfPort.setEditable(true);
-				btnServerStart.setEnabled(true); // 서버 실행 버튼 다시 활성화
+				btnServerStart.setEnabled(true);
 				btnServerStop.setEnabled(false);
 			} catch (IOException e1) {
 
@@ -127,9 +127,9 @@ public class Server extends JFrame implements ActionListener {
 
 	private void startNetwork() {
 		try {
-			server_socket = new ServerSocket(port); // 소켓 생성 스레드
+			server_socket = new ServerSocket(port);
 			textArea.append("서버를 시작 하겠습니다.\n");
-			connect(); // connect 메서드 실행
+			connect();
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "이미 사용중인 포트입니다.", "알림",
 					JOptionPane.ERROR_MESSAGE);
@@ -141,18 +141,18 @@ public class Server extends JFrame implements ActionListener {
 		}
 	}
 
-	private void connect() { // 포트번호 허용되어 서버 시작이 되면 실행
-		Thread th = new Thread(new Runnable() { 
+	private void connect() {
+		Thread th = new Thread(new Runnable() {
 			@Override
 			public void run() {
 				while (true) {
 					try {
-						textArea.append("사용자의 접속을 기다립니다.\n"); 
-						socket = server_socket.accept(); // 소켓 연결 스레드
+						textArea.append("사용자의 접속을 기다립니다.\n");
+						socket = server_socket.accept();
 
-						UserInfomation useInfo = new UserInfomation(socket); // 내부클래스 스레드 상속 객체 생성
+						UserInfomation useInfo = new UserInfomation(socket);
 						// 각각의 스레드를 등록시켜준다.
-						useInfo.start(); // 스레드 실행
+						useInfo.start();
 					} catch (IOException e) {
 						textArea.append("서버가 중지됨! 다시 스타트 버튼을 눌러주세요\n");
 						break;
@@ -166,8 +166,7 @@ public class Server extends JFrame implements ActionListener {
 	// 전체 사용자에게 메세지를 보내는 부분
 	public void broadCast(String str) {
 		for (int i = 0; i < vc.size(); i++) {
-			UserInfomation uinf = vc.elementAt(i); //  elementAt(int) :몇번째 벡터값 요소를 확인. --> 넣어줌			
-			// for문 사용하여 사용자의 정보를 벡터에 모두 담음. -> 그리고 모든 사용자에게 sendmessage실행 
+			UserInfomation uinf = vc.elementAt(i);
 			// 여기서 프로토콜의 개념을 사용
 			uinf.sendmessage(str);
 		}
@@ -185,39 +184,37 @@ public class Server extends JFrame implements ActionListener {
 
 		private boolean roomCheck = true;
 
-		public UserInfomation(Socket soc) { // 생성자
+		public UserInfomation(Socket soc) {
 			this.user_socket = soc;
 			network();
 		}
 
-		private void network() { // 내부클래스 안 메서드
+		private void network() {
 			try {
-				is = user_socket.getInputStream(); //입력스트림
+				is = user_socket.getInputStream();
 				dis = new DataInputStream(is);
-				os = user_socket.getOutputStream(); // 출력스트림
+				os = user_socket.getOutputStream();
 				dos = new DataOutputStream(os);
 
 				// 처음 접속시 유저의 id를 입력받는다.
-				nickName = dis.readUTF(); 
-				textArea.append("[[" + nickName + "]] 입장\n"); // 서버 채팅창
+				nickName = dis.readUTF();
+				textArea.append("[[" + nickName + "]] 입장\n");
 
 				// 기존사용자들에게 신규 유저의 접속을 알린다.
-				broadCast("NewUser/" + nickName); // message = nickname
+				broadCast("NewUser/" + nickName);
 
-				// 자신에게 기존 사용자들을 알린다.?
+				// 자신에게 기존 사용자들을 알린다.
 				for (int i = 0; i < vc.size(); i++) {
 					UserInfomation uinf = vc.elementAt(i);
-					sendmessage("OldUser/" + uinf.nickName); // 유저 한명 더 접속 시 
-					System.out.println("기존 사용자 알림"); //
+					sendmessage("OldUser/" + uinf.nickName);
 				}
 				for (int i = 0; i < vc_room.size(); i++) {
 					RoomInfomation room = vc_room.elementAt(i);
 					sendmessage("OldRoom/" + room.roomName);
-					System.out.println("자신에게 기존 사용자 방을 알림");
 				}
 
-				// 사용자에게 자신을 알린후 벡터에 자신을 추가한다.??????????????
-				vc.add(this); // 이때 자신이 새로 접속한 클라이언트인가..?
+				// 사용자에게 자신을 알린후 벡터에 자신을 추가한다.
+				vc.add(this);
 
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(null, "Stream설정에러!", "알림",
@@ -227,11 +224,11 @@ public class Server extends JFrame implements ActionListener {
 
 		// 브로드캐스트
 		@Override
-		public void run() { // 스레드 실행
+		public void run() {
 			while (true) {
 				try {
-					String msg = dis.readUTF(); // 클라이언트에게 받은 문자 
-					textArea.append("[["+ nickName + "]]" + msg + "\n"); 
+					String msg = dis.readUTF();
+					textArea.append("[["+ nickName + "]]" + msg + "\n");
 					inmessage(msg);
 				} catch (IOException e) {
 					try {
@@ -241,9 +238,9 @@ public class Server extends JFrame implements ActionListener {
 						user_socket.close();
 						vc.remove(this);
 						vc_room.remove(this);
-						broadCast("UserOut/" + nickName); // message = nickname
-						broadCast("ErrorOutRoom/"+myCurrentRoomName); // message = myCurrentRoonName
-						broadCast("UserData_Updata/ok"); 
+						broadCast("UserOut/" + nickName);
+						broadCast("ErrorOutRoom/"+myCurrentRoomName);
+						broadCast("UserData_Updata/ok");
 						break;
 					} catch (IOException e1) {
 						break;
@@ -252,29 +249,29 @@ public class Server extends JFrame implements ActionListener {
 			}
 		}
 
-		private void inmessage(String str) { // 내부클래스 안 메서드
+		private void inmessage(String str) {
 			StringTokenizer st = new StringTokenizer(str, "/");
 
-			String protocol = st.nextToken(); // 첫번째 문자열
-			String message = st.nextToken(); // 두번째 문자열 
+			String protocol = st.nextToken();
+			String message = st.nextToken();
 
-			System.out.println("protocol : " + protocol); 
-			System.out.println("message : " + message); 
+			System.out.println("protocol : " + protocol);
+			System.out.println("message : " + message);
 
-			if (protocol.equals("Note")) { // 쪽지인 경우, 
+			if (protocol.equals("Note")) {
 				System.out.println(message);
 				st = new StringTokenizer(message, "@");
-				String user = st.nextToken(); //user = 쪽지를 보낼 닉네임
-				String note = st.nextToken(); // note = 쪽지 내용
+				String user = st.nextToken();
+				String note = st.nextToken();
 				// 백터에서 해당 사용자를 찾아서 쪽지를 전송한다.
 				for (int i = 0; i < vc.size(); i++) {
 					UserInfomation u = vc.elementAt(i);
 					// 쪽지는 반드시 찾은 사용자에게 메세지를 보내줘어야 한다.
 					if (u.nickName.equals(user)) {
-						u.sendmessage("Note/" + nickName + "@" + note); // 서버에게 보이는 채팅
+						u.sendmessage("Note/" + nickName + "@" + note);
 					}
 				}
-			} else if (protocol.equals("CreateRoom")) { // 방 생성인 경우
+			} else if (protocol.equals("CreateRoom")) {
 				// 1.현재같은방이 존재하는지 확인한다.
 				for (int i = 0; i < vc_room.size(); i++) {
 					RoomInfomation room = vc_room.elementAt(i);
@@ -283,7 +280,7 @@ public class Server extends JFrame implements ActionListener {
 						roomCheck = false;
 						break;
 					} else {
-						roomCheck = true; //같은 이름의 방 없음 확인하고, roomCheck = true; 값 리턴
+						roomCheck = true;
 					}
 				} // end for
 				if (roomCheck == true) {
@@ -293,7 +290,7 @@ public class Server extends JFrame implements ActionListener {
 					vc_room.add(new_room);
 					// 3.사용자들에게 방과 방이름을 생성되었다고 알려준다.
 					sendmessage("CreateRoom/" + message); // 자신에게 방 성공 메세지를 보낸다.
-					broadCast("new_Room/" + message);  // 방 생성 전체 사용자에게 전달
+					broadCast("new_Room/" + message);
 				}
 			} else if (protocol.equals("Chatting")) {
 				String msg = st.nextToken();
@@ -326,17 +323,16 @@ public class Server extends JFrame implements ActionListener {
 			}
 		}
 
-		private void sendmessage(String msg) { // 내부클래스 안 메서드
+		private void sendmessage(String msg) {
 			try {
-				dos.writeUTF(msg + "서버의 sendMessage");
-				System.out.println("서버의 sendMessage");
+				dos.writeUTF(msg);
 				dos.flush();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 		
-	} // userInfo 내부클래스 끝
+	}
 
 	// 내부클래스
 	class RoomInfomation {
@@ -374,14 +370,14 @@ public class Server extends JFrame implements ActionListener {
 					RoomInfomation r = vc_room.elementAt(i);
 					if (r.roomName.equals(roomName)) {
 						vc_room.remove(this);
-						broadCast("EmptyRoom/"+roomName); // message = roomName
+						broadCast("EmptyRoom/"+roomName);
 						broadCast("UserData_Updata/ok");
 						break;
 					}
 				}
 			}
 		}
-	} // roomInfo 내부 클래스 끝
+	}
 	public static void main(String[] args) {
 		new Server();
 	}

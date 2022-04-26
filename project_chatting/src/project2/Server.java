@@ -1,5 +1,6 @@
-package project1;
+package project2;
 
+import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.DataInputStream;
@@ -37,39 +38,42 @@ public class Server extends JFrame implements ActionListener {
 	private int port;
 
 	// 벡터리스트
-//	private Vector<Clients> clientsVector = new Vector<Clients>();
-//	private Vector<CreatedRoom> roomListVector = new Vector<CreatedRoom>();
+	private Vector<Clients> clientsVector = new Vector<Clients>();
+	private Vector<CreatedRoom> roomListVector = new Vector<CreatedRoom>();
 
 	// 생성자
 	public Server() {
-		initGUIData();
-		addListener();
+//		initGUIData();
+//		addActionListener();
+//		setPortTextField.requestFocus();
 	}
 
 	// 화면 만들기
 	private void initGUIData() {
-		setTitle("Happy챗 서버");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(600, 600);
-		setLocationRelativeTo(null);
+		setBounds(100, 100, 350, 410);
 		panel = new JPanel();
 		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(panel);
 		panel.setLayout(null);
-		
+
+		ScrollPane scrollPane = new ScrollPane();
+		scrollPane.setBounds(10, 10, 309, 229);
 		chattingTextArea = new JTextArea();
-		chattingTextArea.setBounds(12, 11, 310, 229);
-		panel.add(chattingTextArea);
-		
-		setPortLabel = new JLabel("포트번호 : ");
+		chattingTextArea.setBounds(12, 11, 310, 230);
+		scrollPane.add(chattingTextArea);
+		chattingTextArea.add(scrollPane);
+		chattingTextArea.setEditable(false);
+
+		setPortLabel = new JLabel("포트번호 :");
 		setPortLabel.setBounds(12, 273, 82, 15);
 		panel.add(setPortLabel);
-		
+
 		setPortTextField = new JTextField();
 		setPortTextField.setBounds(98, 270, 224, 21);
 		panel.add(setPortTextField);
 		setPortTextField.setColumns(10);
-		
+
 		creatServerBtn = new JButton("서버실행");
 		creatServerBtn.setBounds(12, 315, 154, 23);
 		panel.add(creatServerBtn);
@@ -78,19 +82,16 @@ public class Server extends JFrame implements ActionListener {
 		endServerBtn.setBounds(168, 315, 154, 23);
 		panel.add(endServerBtn);
 		endServerBtn.setEnabled(false);
-		
+
 		setVisible(true);
 	}
 	
-	private void addListener() {
+	private void addActionListener() {
+		setPortTextField.addActionListener(this);
 		creatServerBtn.addActionListener(this);
 		endServerBtn.addActionListener(this);
-		setPortTextField.addActionListener(this);
-		
 	}
 
-	// 클라이언트와 연결 - 스레드 사용 (다중접속 가능)
-	// 이벤트 리스너
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == creatServerBtn) {
@@ -117,8 +118,8 @@ public class Server extends JFrame implements ActionListener {
 		} else if (e.getSource() == endServerBtn) {
 			try {
 				serverSocket.close();
-//				clientsVector.removeAllElements();
-//				roomListVector.removeAllElements();
+				clientsVector.removeAllElements();
+				roomListVector.removeAllElements();
 				setPortTextField.setEnabled(true); // ??
 //			setPortTextField.setEditable(true);
 			} catch (IOException e1) {
@@ -135,7 +136,7 @@ public class Server extends JFrame implements ActionListener {
 			public void run() {
 				while (true) {
 					try {
-						chattingTextArea.append("연결중...\n");
+						chattingTextArea.append("연결중...");
 						socket = serverSocket.accept();
 						Clients client = new Clients(socket);
 						// 스레드 실행
@@ -150,14 +151,13 @@ public class Server extends JFrame implements ActionListener {
 		});
 		thread.start();
 	}
-	// 버튼을 누르면 파일에 저장
 
 	// 전체 사용자에게 전송
 	private void broadCast(String string) {
-//		for(int i = 0; i < clientsVector.size(); i++) {
-//			Clients client = clientsVector.elementAt(i);
-//			client.sendMessage(string);
-//		}
+		for (int i = 0; i < clientsVector.size(); i++) {
+			Clients client = clientsVector.elementAt(i);
+			client.sendMessage(string);
+		}
 	}
 
 	// 내부클래스 클래스 이름 설정!
@@ -187,19 +187,19 @@ public class Server extends JFrame implements ActionListener {
 				nickname = dataInputStream.readUTF(); // client의 네트워크 메서드
 				chattingTextArea.append("<" + nickname + ">님이 참가하였습니다.\n");
 				// 기존 사용자들에게 새로운 유저 알림
-//				broadCast("NewUser/" + nickname);
-//				// 새로운 유저에게 기존 사용자들을 목록에 추가시켜줌
-//				for(int i = 0; i < clientsVector.size(); i++) {
-//					Clients client = clientsVector.elementAt(i);
-//					sendMessage("OriginUser/" + client.nickname);
-//				}
-//				// 기존에 있던 방 목록을 새로운 유저의 목록에 추가시켜줌
-//				for(int i = 0; i < roomListVector.size(); i++) {
-//					CreatedRoom existRoom = roomListVector.elementAt(i);
-//					sendMessage("OriginRoomList/" + existRoom.roomName);
-//				}
-//				// 자신을 사용자 목록에 추가시켜줌
-//				clientsVector.add(this);
+				broadCast("NewUser/" + nickname);
+				// 새로운 유저에게 기존 사용자들을 목록에 추가시켜줌
+				for (int i = 0; i < clientsVector.size(); i++) {
+					Clients client = clientsVector.elementAt(i);
+					sendMessage("OriginUser/" + client.nickname);
+				}
+				// 기존에 있던 방 목록을 새로운 유저의 목록에 추가시켜줌
+				for (int i = 0; i < roomListVector.size(); i++) {
+					CreatedRoom existRoom = roomListVector.elementAt(i);
+					sendMessage("OriginRoomList/" + existRoom.roomName);
+				}
+				// 자신을 사용자 목록에 추가시켜줌
+				clientsVector.add(this);
 
 			} catch (IOException e) {
 				System.out.println("스트림 설정 오류"); // 오류 확인
@@ -253,49 +253,47 @@ public class Server extends JFrame implements ActionListener {
 		});
 
 	}
-
+	
 	// 내부 클래스
 	class CreatedRoom {
 		String roomName;
-		Vector<Clients> roomUserVector = new Vector<Clients>();
-
+		Vector<Clients> roomUserVector = new Vector<Clients>(); 
+		
 		public CreatedRoom(String roomName, Clients client) {
 			this.roomName = roomName;
-			this.roomUserVector.add(client); // ??
+			this.roomUserVector.add(client); //??
 			client.roomName = roomName; // 변수 명 다 고치기
 		}
-
+		
 		// 방에 있는 모든 사용자들에게 채팅보내기
 		private void roomBroadcast(String string) {
-			for (int i = 0; i < roomUserVector.size(); i++) {
+			for (int i = 0; i < roomUserVector.size() ; i++) {
 				Clients client = roomUserVector.elementAt(i);
 				client.sendMessage(string);
 			}
 		}
-
+		
 		private void addclient(Clients client) {
 			roomUserVector.add(client);
 		}
 		// to string 오버라이드 ??????
-
+		
 		private void removeRoom(Clients client) {
-//			roomUserVector.remove(client);
-//			if(roomUserVector.isEmpty()) {
-//				for(int i = 0; i < roomListVector.size(); i++) {
-//					CreatedRoom room = roomListVector.elementAt(i);
-//					if(room.roomName.equals(roomName)) {
-//						roomListVector.remove(this);
-//						broadCast("RemoveRoom/" + roomName);
-////						broadCast("UserDataUpdate/Ok"); ?????
-//						break;
-//					}
-//				}
-//			}
+			roomUserVector.remove(client);
+			if(roomUserVector.isEmpty()) {
+				for(int i = 0; i < roomListVector.size(); i++) {
+					CreatedRoom room = roomListVector.elementAt(i);
+					if(room.roomName.equals(roomName)) {
+						roomListVector.remove(this);
+						broadCast("RemoveRoom/" + roomName);
+//						broadCast("UserDataUpdate/Ok"); ?????
+						break;
+					}
+				}
+			}
 		}
 	}
 	
-	public static void main(String[] args) {
-		new Server();
-	}
+
 
 }
