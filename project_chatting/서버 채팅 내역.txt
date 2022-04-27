@@ -1,0 +1,10 @@
+서버를 시작합니다
+연결중...
+<hj> 님이 접속했습니다.
+연결중...
+<lim> 님이 접속했습니다.
+연결중...
+<hj>SendMsg/hj/클라이언트 1
+<lim>SendMsg/lim/클라이언트 2
+<hj>SendMsg/hj/기록 저장
+<lim>SendMsg/lim/테스트 해보자

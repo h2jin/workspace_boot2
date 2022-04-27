@@ -286,9 +286,11 @@ public class Client extends JFrame implements ActionListener {
 		System.out.println("메세지" + message);
 
 		if (protocol.equals("NewUser")) {
+			// 새로운유저 리스트에 추가
 			user_Vclist.add(message);
 			totalList_lst.setListData(user_Vclist);
 		} else if (protocol.equals("OldUser")) {
+			// 새로운 유저의 리스트에 기존 유저 추가
 			user_Vclist.add(message);
 			totalList_lst.setListData(user_Vclist);
 		} else if (protocol.equals("Note")) {
