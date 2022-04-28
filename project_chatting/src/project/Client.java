@@ -331,13 +331,11 @@ public class Client extends JFrame implements ActionListener {
 			String whisper = tokenizer.nextToken();
 			showChattingTextArea.append("[" + message + "]가 보낸 귓속말 :" + whisper);
 			showChattingTextArea.requestFocus();
-		} else if (protocol.equals("ChangeNick")) {
-			nickname = message;
-			totalUserList.repaint();
+		} else if (protocol.equals("MakeRoomFail")) {
+			JOptionPane.showMessageDialog(null, "이미 존재하는 방 이름 입니다" , "알림", JOptionPane.ERROR_MESSAGE);
 		} else if (protocol.equals("MakeRoom")) {
 			System.out.println("방 생성 실행");
-			rooms.add(message);
-			roomList.setListData(rooms);
+			myRoomName = message;
 			makeRoomBtn.setEnabled(false);
 			joinRoomBtn.setEnabled(false);
 			outRoomBtn.setEnabled(true);
@@ -347,7 +345,10 @@ public class Client extends JFrame implements ActionListener {
 			roomList.setListData(rooms);
 			System.out.println(rooms);
 		} else if (protocol.equals("JoinRoom")) {
+			System.out.println("JoinRoom 실행됨");
+			
 			showChattingTextArea.append("<" + message + "> 이(가) 채팅방에 입장했습니다.\n");
+			myRoomName = message;
 		} else if (protocol.equals("OutRoom")) {
 			showChattingTextArea.append("[" + message + "] 에서 퇴장하였습니다.");
 		} else if (protocol.equals("RemoveRoom")) {
@@ -419,7 +420,7 @@ public class Client extends JFrame implements ActionListener {
 			String joinRoom = (String) roomList.getSelectedValue();
 			outRoomBtn.setEnabled(true);
 			joinRoomBtn.setEnabled(false);
-			sendMessage("JoinRoon/" + joinRoom);
+			sendMessage("JoinRoom/" + joinRoom);
 		} else if (e.getSource() == outRoomBtn) {
 			sendMessage("OutRoom/" + myRoomName);
 		} else if (e.getSource() == chattingTextField) {

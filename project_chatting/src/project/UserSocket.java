@@ -156,20 +156,21 @@ public class UserSocket extends Thread {
 					isMakeRoom = true;
 				}
 			}
-			if(isMakeRoom = true) {
+			if (isMakeRoom = true) {
 				ChattingRoom chattingRoom = new ChattingRoom(mContext, message, this);
 				mContext.roomList.add(chattingRoom);
 				// 자신에게 방 생성 알림
 				sendMessage("MakeRoom/" + message);
-				mContext.broadCast("NewRoom/" + message);				
+				mContext.broadCast("NewRoom/" + message);
 			}
 		} else if (protocol.equals("JoinRoom")) {
+			System.out.println("유저소켓의 조인룸 들어옴");
 			for (int i = 0; i < mContext.roomList.size(); i++) {
 				ChattingRoom chattingRoom = mContext.roomList.elementAt(i);
 				if (chattingRoom.roomName.equals(message)) {
+					System.out.println("유저소켓의 이프문 안에 들어옴 ");
 					chattingRoom.rooms.add(this);
 					mContext.roomList.elementAt(i).roomBroadcast("JoinRoom/" + nickname);
-//					chattingRoom.roomBroadcast("JoinRoom/" + nickname);
 				}
 			}
 		} else if (protocol.equals("OutRoom")) {

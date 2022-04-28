@@ -14,7 +14,7 @@ public class HttpMainTest3 {
 	public static void main(String[] args) {
 		
 		//문자열을 
-		try {
+		try { 
 			URL url = new URL("https://jsonplaceholder.typicode.com/posts/25"); // 네이버로 주소를 바꾸면 파싱할 때 오류가 난다
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("GET"); // --> REST API 
