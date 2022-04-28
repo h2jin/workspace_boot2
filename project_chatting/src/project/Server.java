@@ -119,9 +119,9 @@ public class Server extends JFrame implements ActionListener{
 							// 여기서 멈춰있음 계속 돌지 않음
 							chattingTextArea.append("연결중...\n");
 							Socket socket = serverSocket.accept();
-							UserSocket userSocket = new UserSocket(mContext, socket);
-							userSocket.start();
-							sockets.add(userSocket);
+							UserSocket userSocket = new UserSocket(mContext, socket); 
+							userSocket.start(); 
+							sockets.add(userSocket); 
 							
 						} catch (IOException e) {
 							// TODO Auto-generated catch block

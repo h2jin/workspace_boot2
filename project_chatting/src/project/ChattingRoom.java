@@ -2,6 +2,7 @@ package project;
 
 import java.util.Vector;
 
+
 public class ChattingRoom {
 	
 	Server mContext;
@@ -17,7 +18,7 @@ public class ChattingRoom {
 	}
 	
 	// 방에 있는 사용자들에게만 메세지 전송
-	private void roomBroadcast(String str) {
+	public void roomBroadcast(String str) {
 		for (int i = 0; i < rooms.size(); i++) {
 			UserSocket userSocket = rooms.elementAt(i);
 			userSocket.sendMessage(str);
@@ -25,12 +26,12 @@ public class ChattingRoom {
 	}
 	
 	// 방 참가
-	private void addUser(UserSocket userSocket) {
+	public void addUser(UserSocket userSocket) {
 		rooms.add(userSocket);
 	}
 	
 	// 방 나가기
-	private void outRoom(UserSocket userSocket) {
+	public void outRoom(UserSocket userSocket) {
 		rooms.remove(userSocket);
 		if(rooms.isEmpty()) {
 			for(int i =0; i < mContext.roomList.size(); i++) {
@@ -43,5 +44,7 @@ public class ChattingRoom {
 			}
 		}
 	}
+	
+	
 
 }

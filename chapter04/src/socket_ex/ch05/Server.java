@@ -153,6 +153,8 @@ public class Server extends JFrame implements ActionListener {
 						UserInfomation useInfo = new UserInfomation(socket);
 						// 각각의 스레드를 등록시켜준다.
 						useInfo.start();
+						
+						// 여기서 벡터에 올려주지 않음
 					} catch (IOException e) {
 						textArea.append("서버가 중지됨! 다시 스타트 버튼을 눌러주세요\n");
 						break;
@@ -201,12 +203,16 @@ public class Server extends JFrame implements ActionListener {
 				textArea.append("[[" + nickName + "]] 입장\n");
 
 				// 기존사용자들에게 신규 유저의 접속을 알린다.
-				broadCast("NewUser/" + nickName);
+				broadCast("NewUser/" + nickName); // C1 한테만 메세지가 전송된다.
+				
+				//c1, c2 실행시점!
 
 				// 자신에게 기존 사용자들을 알린다.
 				for (int i = 0; i < vc.size(); i++) {
 					UserInfomation uinf = vc.elementAt(i);
-					sendmessage("OldUser/" + uinf.nickName);
+					// 브로드 캐스트가 아님. 나와 연결되어 있는 스트림을 통해서 보낸다.
+					sendmessage("OldUser/" + uinf.nickName); // c2와 연결되어 있는 클라이언트에게만 메세지 보냄
+					//sendMessage는 
 				}
 				for (int i = 0; i < vc_room.size(); i++) {
 					RoomInfomation room = vc_room.elementAt(i);
@@ -214,6 +220,8 @@ public class Server extends JFrame implements ActionListener {
 				}
 
 				// 사용자에게 자신을 알린후 벡터에 자신을 추가한다.
+				
+				// 여기 부분 확인! 
 				vc.add(this);
 
 			} catch (IOException e) {
