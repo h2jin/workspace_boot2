@@ -36,7 +36,7 @@ public class ChattingRoom {
 		if(rooms.isEmpty()) {
 			for(int i =0; i < mContext.roomList.size(); i++) {
 				ChattingRoom chattingRoom = mContext.roomList.elementAt(i);
-				if(roomName.equals(chattingRoom.roomName)) {
+				if(chattingRoom.roomName.equals(roomName)) {
 					mContext.roomList.remove(this);
 					mContext.broadCast("RemoveRoom/"+ roomName);
 					break;

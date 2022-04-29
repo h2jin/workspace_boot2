@@ -259,7 +259,22 @@ public class Client extends JFrame implements ActionListener {
 							// 로그
 							System.out.println("서버에서 온 메세지: " + msg);
 						} catch (IOException e) {
-							JOptionPane.showMessageDialog(null, " 연결 오류", "알림!", JOptionPane.ERROR_MESSAGE);
+							try {
+								users.removeAllElements();
+								rooms.removeAllElements();
+								totalUserList.setListData(users);
+								roomList.setListData(rooms);
+								showChattingTextArea.setText("");
+								JOptionPane.showMessageDialog(null, " 연결 오류", "알림!", JOptionPane.ERROR_MESSAGE);
+								inputStream.close();
+								dataInputStream.close();
+								outputStream.close();
+								dataOutputStream.close();
+								break;
+							} catch (IOException e1) {
+								e1.printStackTrace();
+							}
+							
 							e.printStackTrace();
 						}
 
@@ -269,7 +284,6 @@ public class Client extends JFrame implements ActionListener {
 			}).start();
 
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, " 연결 오류", "알림!", JOptionPane.ERROR_MESSAGE);
@@ -343,14 +357,21 @@ public class Client extends JFrame implements ActionListener {
 			System.out.println("새로운 방 들어옴");
 			rooms.add(message);
 			roomList.setListData(rooms);
-			System.out.println(rooms);
 		} else if (protocol.equals("JoinRoom")) {
-			System.out.println("JoinRoom 실행됨");
-			
-			showChattingTextArea.append("<" + message + "> 이(가) 채팅방에 입장했습니다.\n");
+			String nick = tokenizer.nextToken();
 			myRoomName = message;
+			System.out.println("JoinRoom 실행됨");
+			showChattingTextArea.append("<" + nick + "> 이(가) " + message + "채팅방에 입장했습니다.\n");
+			makeRoomBtn.setEnabled(false);
+			joinRoomBtn.setEnabled(false);
+			outRoomBtn.setEnabled(true);
 		} else if (protocol.equals("OutRoom")) {
-			showChattingTextArea.append("[" + message + "] 에서 퇴장하였습니다.");
+			String room = tokenizer.nextToken();
+			showChattingTextArea.append("<" + message + "> 이(가) " + room + "채팅방에서 퇴장하였습니다.");
+			myRoomName = null;
+			outRoomBtn.setEnabled(false);
+			joinRoomBtn.setEnabled(true);
+			makeRoomBtn.setEnabled(true);
 		} else if (protocol.equals("RemoveRoom")) {
 			rooms.remove(message);
 			roomList.setListData(rooms);
@@ -429,7 +450,7 @@ public class Client extends JFrame implements ActionListener {
 				chattingTextField.requestFocus();
 			} else {
 				String msg = "SendMsg/" + myRoomName + "/" + nickname + "/" + chattingTextField.getText().trim();
-				sendMessage(msg);// (SendMsg/닉네임/보낸메세지)
+				sendMessage(msg);
 			}
 		} else if (e.getSource() == endBtn) {
 			System.exit(0);

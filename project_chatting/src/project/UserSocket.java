@@ -79,8 +79,18 @@ public class UserSocket extends Thread {
 						mContext.getChattingTextArea().append("<" + nickname + ">" + msg + "\n");
 						getMessage(msg);
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
+						// 오류나면 중지시키기
+						try {
+							mContext.getChattingTextArea().append(nickname + "의 접속이 끊겼습니다.");
+							inputStream.close();
+							dataInputStream.close();
+							outputStream.close();
+							dataOutputStream.close();
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+						
 					}
 
 				}
@@ -170,15 +180,19 @@ public class UserSocket extends Thread {
 				if (chattingRoom.roomName.equals(message)) {
 					System.out.println("유저소켓의 이프문 안에 들어옴 ");
 					chattingRoom.rooms.add(this);
-					mContext.roomList.elementAt(i).roomBroadcast("JoinRoom/" + nickname);
+					chattingRoom.roomBroadcast("JoinRoom/" + message + "/" + nickname);
+					
 				}
 			}
 		} else if (protocol.equals("OutRoom")) {
+			System.out.println("outroom 실행됨");
 			for (int i = 0; i < mContext.roomList.size(); i++) {
 				ChattingRoom chattingRoom = mContext.roomList.elementAt(i);
 				if (chattingRoom.roomName.equals(message)) {
+					System.out.println("outroom의 if문 안 실행");
+					sendMessage("OutRoom/" + nickname + "/" + message);
 					chattingRoom.outRoom(this);
-					sendMessage("OutRoom/" + message);
+//					chattingRoom.rooms.remove(this);
 					break;
 				}
 			}
