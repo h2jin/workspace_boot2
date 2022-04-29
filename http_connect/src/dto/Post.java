@@ -1,5 +1,8 @@
 package dto;
 
+import lombok.ToString;
+
+@ToString
 public class Post {
 	//구문을 분석해서 클래스화 하는 것을 모델링 함. 
 	// 이런 역할을 하는 클래스를 dto라고 한다.
