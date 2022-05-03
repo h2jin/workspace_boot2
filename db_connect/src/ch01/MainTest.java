@@ -21,7 +21,7 @@ public class MainTest {
 	// 생성자
 	public MainTest() {
 
-		// reflection 기법 : 컴팡리 시점에 문자열에서 --> 런타임 시점에 실제 클래스가 존재하는지 확인
+		// reflection 기법 : 컴파일 시점에 문자열에서 --> 런타임 시점에 실제 클래스가 존재하는지 확인
 		// 메모리(heap) 영역에 올라간다.
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
