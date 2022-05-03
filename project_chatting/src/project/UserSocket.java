@@ -20,16 +20,13 @@ public class UserSocket extends Thread {
 
 	String nickname;
 	String myRoomName;
-	// 소켓
 	Socket socket;
 
-	// 입출력 스트림
 	InputStream inputStream;
 	DataInputStream dataInputStream;
 	OutputStream outputStream;
 	DataOutputStream dataOutputStream;
 
-	// 의존성 컴포지션 관계
 	public UserSocket(Server mContext, Socket socket) {
 		this.mContext = mContext;
 		this.socket = socket;
@@ -58,7 +55,6 @@ public class UserSocket extends Thread {
 			// 벡터리스트에 자신 추가
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

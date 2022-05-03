@@ -385,7 +385,6 @@ public class Client extends JFrame implements ActionListener {
 			dataOutputStream.writeUTF(str);
 			dataOutputStream.flush();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -402,7 +401,6 @@ public class Client extends JFrame implements ActionListener {
 		nicknameTextField.addActionListener(this);
 		chattingTextField.addActionListener(this);
 		changeNick.addActionListener(this);
-		// 버튼들 액션리스너 추가해주기!
 	}
 
 	@Override

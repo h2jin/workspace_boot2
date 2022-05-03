@@ -61,9 +61,6 @@ public class Server extends JFrame implements ActionListener {
 		add(panel);
 		panel.setLayout(null);
 
-//			label = new JLabel(new ImageIcon("images/background.png"));
-//			label.setBounds(0, 0, 600, 600);
-//			panel.add(label);
 
 		chattingTextArea = new JTextArea();
 		chattingTextArea.setBounds(12, 11, 560, 400);
@@ -101,7 +98,6 @@ public class Server extends JFrame implements ActionListener {
 			chattingTextArea.append("서버를 시작합니다\n");
 			creatSocket();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -122,7 +118,6 @@ public class Server extends JFrame implements ActionListener {
 						sockets.add(userSocket);
 
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
