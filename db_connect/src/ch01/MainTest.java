@@ -12,7 +12,7 @@ public class MainTest {
 	private Connection conn; // DB 커넥션 연결 객체
 	private static final String USER_NAME = "root";
 	private static final String PASSWORD = "asd123";
-	private static final String URL = "jdbc:mysql://localhost:3306/shopdb_1?serverTimezone=Asia/Seoul&characterEncoding=UTF-8";
+	private static final String URL = "jdbc:mysql://localhost:3306/shopdb?serverTimezone=Asia/Seoul&characterEncoding=UTF-8";
 	// 프로토콜//로컬호스트(자신의 컴퓨터):포트번호/데이터베이스 지정 ? 서버타임존 부가적으로 넣어줘야 함= 아시아/서울&엔코딩UTF-8
 
 	private Statement stmt; // String으로 쿼리문 작성 --> mysql이 이해할 수 있는 쿼리구문으로 변경해주는 녀석
