@@ -2,7 +2,7 @@ executeQuery와 executeUpdate의 차이점
 executeQuery는 resultSet을 만드는 sql문에서 사용합니다.
 주로 SELECT문을 수행할 때 사용된다.
 
-executeUpdate 는 insert나 update와 같은 쿼리문에서 사용됩니다.
+executeUpdate 는 insert나 update와 같은 쿼리문에서 사용된다.
 
 Can not issue data manipulation statements with executeQuery().
 

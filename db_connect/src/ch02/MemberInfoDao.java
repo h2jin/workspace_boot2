@@ -21,7 +21,7 @@ public class MemberInfoDao implements IMemberInfoDao{
 	}
 	
 	@Override
-	public ArrayList<MemberDto> select() {
+	public synchronized ArrayList<MemberDto> select() {
 		
 		//모든 dto를 담는 자료구조를 생성
 		ArrayList<MemberDto> dataResult = new ArrayList<MemberDto>();
