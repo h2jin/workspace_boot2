@@ -18,10 +18,8 @@ public class EmployeeDto {
 	private String last_name;
 	private String gender;
 	private String hire_date;
-	
 	private String title;
 	private String from_date;
-	
 	private String dept_no;
 	private String to_date;
 	private int salary;

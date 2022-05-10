@@ -157,10 +157,10 @@ public class EmployeesInfoDto implements IEmployeesDto {
 		EmployeesInfoDto employeesInfoDto = new EmployeesInfoDto();
 		ArrayList<EmployeeDto> data;
 		
-//		data = employeesInfoDto.selectRetireManager("2000-01-01", "development");
-//		data = employeesInfoDto.selectRetireDeptManager("2000-01-01");
-//		data = employeesInfoDto.employeesSalary();
-//		data = employeesInfoDto.selectTitleEmployees("Staff");
+		data = employeesInfoDto.selectRetireManager("2000-01-01", "development");
+		data = employeesInfoDto.selectRetireDeptManager("2000-01-01");
+		data = employeesInfoDto.employeesSalary();
+		data = employeesInfoDto.selectTitleEmployees("Staff");
 		data = employeesInfoDto.selectSalaryEmployees(80000);
 
 		for (int i = 0; i < data.size(); i++) {

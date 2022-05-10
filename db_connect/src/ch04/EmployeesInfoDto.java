@@ -115,9 +115,9 @@ public class EmployeesInfoDto implements IEmployeesDto {
 		EmployeesInfoDto employeesInfoDto = new EmployeesInfoDto();
 		ArrayList<EmployeeDto> data;
 		data = employeesInfoDto.selectEmployeesTitle();
-//		data = employeesInfoDto.selectGenderDept("F");
-//		data = employeesInfoDto.selectMinHireDate();
-//		data = employeesInfoDto.selectDeptEmployees("Finance");
+		data = employeesInfoDto.selectGenderDept("F");
+		data = employeesInfoDto.selectMinHireDate();
+		data = employeesInfoDto.selectDeptEmployees("Finance");
 
 		for (int i = 0; i < data.size(); i++) {
 			System.out.println(data.get(i));

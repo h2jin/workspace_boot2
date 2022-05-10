@@ -10,7 +10,7 @@ public interface IEmployeesDto {
 	// 성별 별 부서 직원 조회 
 	ArrayList<EmployeeDto> selectGenderDept(String gender);
 	
-	// 입사일이 빠른 직원 조회
+	// 입사일이 가장 빠른 직원 조회
 	ArrayList<EmployeeDto> selectMinHireDate();
 	
 	// 연봉이 가장 높은 직원 조회

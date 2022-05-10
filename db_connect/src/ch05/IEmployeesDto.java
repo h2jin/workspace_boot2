@@ -9,10 +9,10 @@ public interface IEmployeesDto {
 	// 중첩 서브쿼리
 	ArrayList<EmployeeDto> selectRetireManager(String date, String dept);
 	
-	//인라인뷰
+	//인라인뷰 서브쿼리
 	ArrayList<EmployeeDto> selectRetireDeptManager(String date);
 	
-	// 스칼라
+	// 스칼라 서브쿼리
 	ArrayList<EmployeeDto> employeesSalary();
 	
 	// 직함 별 근무중인 직원 조회

@@ -15,7 +15,7 @@ public class DataBaseClient {
 	
 	private Connection connection;
 	
-	//싱글톤 패턴
+	//싱글톤
 	private static DataBaseClient dbClient;
 	
 	public static DataBaseClient getInstance() {
