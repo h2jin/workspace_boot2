@@ -13,7 +13,7 @@ public class EmployeesInfoDto implements IEmployeesDto {
 	ResultSet resultSet;
 
 	public EmployeesInfoDto() {
-		client = DataBaseClient.getInstance();
+		client = new DataBaseClient("employees");
 		conn = client.getConnection();
 	}
 

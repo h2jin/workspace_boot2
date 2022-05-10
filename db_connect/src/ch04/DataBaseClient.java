@@ -8,21 +8,15 @@ public class DataBaseClient {
 	
 	private static final String DB_HOST = "localhost";
 	private static final int DB_PORT = 3306;
-	private static final String DB_DATABASE_NAME = "employees";
+	private String DB_DATABASE_NAME;
 	private static final String DB_CHARSET = "UTF-8";
 	private static final String DB_USER_NAME = "root";
 	private static final String DB_PASSWORD = "asd123";
 	
 	private Connection connection;
 	
-	//싱글톤
-	private static DataBaseClient dbClient;
-	
-	public static DataBaseClient getInstance() {
-		if(dbClient == null) {
-			dbClient = new DataBaseClient();
-		}
-		return dbClient;
+	public DataBaseClient(String dbName) {
+		this.DB_DATABASE_NAME = dbName;
 	}
 	
 	public Connection getConnection() {
