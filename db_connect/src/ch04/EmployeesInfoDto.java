@@ -90,6 +90,27 @@ public class EmployeesInfoDto implements IEmployeesDto {
 	
 
 	@Override
+	public ArrayList<EmployeeDto> selectMaxSalary() {
+		try {
+			String salaryQuery = "SELECT s.emp_no, e.first_name, e.gender, s.salary FROM salaries AS s LEFT JOIN employees AS e ON s.emp_no = e.emp_no WHERE salary = (SELECT max(salary) FROM salaries)";
+			PreparedStatement preparedStatement = conn.prepareStatement(salaryQuery);
+			resultSet = preparedStatement.executeQuery();
+			
+			while(resultSet.next()) {
+				EmployeeDto dto = new EmployeeDto();
+				dto.setEmp_no(resultSet.getInt("emp_no"));
+				dto.setFirst_name(resultSet.getString("first_name"));
+				dto.setGender(resultSet.getString("gender"));
+				dto.setSalary(resultSet.getInt("salary"));
+				employeeDtos.add(dto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return employeeDtos;
+	}
+	@Override
 	public ArrayList<EmployeeDto> selectDeptEmployees(String dept) {
 		try {
 			String deptQuery = "SELECT e.*, d.dept_name FROM dept_emp AS e INNER JOIN departments AS d ON e.dept_no = d.dept_no WHERE d.dept_name = 'Development' LIMIT 100";
@@ -114,14 +135,16 @@ public class EmployeesInfoDto implements IEmployeesDto {
 	public static void main(String[] args) {
 		EmployeesInfoDto employeesInfoDto = new EmployeesInfoDto();
 		ArrayList<EmployeeDto> data;
-		data = employeesInfoDto.selectEmployeesTitle();
-		data = employeesInfoDto.selectGenderDept("F");
-		data = employeesInfoDto.selectMinHireDate();
-		data = employeesInfoDto.selectDeptEmployees("Finance");
+//		data = employeesInfoDto.selectEmployeesTitle();
+//		data = employeesInfoDto.selectGenderDept("F");
+//		data = employeesInfoDto.selectMinHireDate();
+		data = employeesInfoDto.selectMaxSalary();
+//		data = employeesInfoDto.selectDeptEmployees("Finance");
 
 		for (int i = 0; i < data.size(); i++) {
 			System.out.println(data.get(i));
 		}
 	}
+
 
 }

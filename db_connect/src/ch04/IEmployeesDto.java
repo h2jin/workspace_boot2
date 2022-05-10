@@ -14,7 +14,7 @@ public interface IEmployeesDto {
 	ArrayList<EmployeeDto> selectMinHireDate();
 	
 	// 연봉이 가장 높은 직원 조회
-//	ArrayList<EmployeeDto> selectMaxSalary();
+	ArrayList<EmployeeDto> selectMaxSalary();
 	
 	// 부서별 근무한 직원 조회
 	ArrayList<EmployeeDto> selectDeptEmployees(String dept);
