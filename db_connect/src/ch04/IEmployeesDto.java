@@ -4,15 +4,16 @@ import java.util.ArrayList;
 
 public interface IEmployeesDto {
 	
-	// 
-	ArrayList<EmployeeDto> innerJoinTitle();
+	// 직원의 직함 조회
+	ArrayList<EmployeeDto> selectEmployeesTitle();
 	
-	void innerJoinGender(String gender);
+	// 성별 별 부서 직원 조회 
+	ArrayList<EmployeeDto> selectGenderDept(String gender);
 	
-	void innerJoinMinDate();
+	// 입사일이 빠른 직원 조회
+	ArrayList<EmployeeDto> selectMinHireDate();
 	
-	void leftJoinSalary();
-	
-	void innerdepartment(String dept);
+	// 부서별 근무한 직원 조회
+	ArrayList<EmployeeDto> selectDeptEmployees(String dept);
 	
 }
