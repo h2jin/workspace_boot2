@@ -28,6 +28,7 @@ public class MoviePanel extends JPanel{
 	private JScrollPane scrollPane;
 	private JButton movieBtn;
 	private Font font = new Font("맑은 고딕", Font.BOLD, 13);
+	private String images = "images/poster.jpg";
 	
 	
 	public MoviePanel() {
@@ -42,7 +43,7 @@ public class MoviePanel extends JPanel{
 		setBounds(20, 70, 730, 670);
 		setLayout(null);
 		
-		imageLabel = new JLabel(new ImageIcon("images/poster.jpg"));
+		imageLabel = new JLabel(new ImageIcon(images));
 		imageLabel.setBounds(100, 50, 200, 286);
 		add(imageLabel);
 		

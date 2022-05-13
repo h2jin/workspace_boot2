@@ -8,5 +8,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/lombok.jar"/>
 	<classpathentry kind="lib" path="lib/gson-2.8.5.jar"/>
+	<classpathentry kind="lib" path="lib/mysql-connector-java-8.0.21.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

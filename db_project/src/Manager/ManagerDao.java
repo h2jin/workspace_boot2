@@ -1,18 +1,22 @@
-package movieProject;
+package Manager;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Vector;
 
 public class ManagerDao implements IManager {
-
+	
 	private DBClient dbClient;
 	private Connection connection;
 
 	private PreparedStatement preparedStatement;
-	private ResultSet resultSet;
+	int result;
+	
+	private ResultSet rs;
 
 	public ManagerDao() {
 		dbClient = DBClient.getInstance();
@@ -21,31 +25,39 @@ public class ManagerDao implements IManager {
 	
 	// 영화 정보 등록시 영화정보 삽입메서드와 스코어 정보 삽입 메서드 같이 실행 
 	// 새로운 영화정보 삽입
+	// dto
 	@Override
-	public void insertMovieInfo(String title, String date, float StarScore, String genre, String imageFileName) {
+	public void insertMovieInfo(String title, String date, Double starScore, String genre, String imageFileName) {
 
-		String insertQuery = "INSERT INTO movie VALUES (?, ?, ?, ?, ?);";
 
 		try {
+			String insertQuery = "INSERT INTO movie VALUES (?, ?, ?, ?, ?)";
 			preparedStatement = connection.prepareStatement(insertQuery);
+			
 			preparedStatement.setString(1, title);
 			preparedStatement.setString(2, date);
-			preparedStatement.setFloat(3, StarScore);
+			preparedStatement.setDouble(3, starScore);
 			preparedStatement.setString(4, genre);
 			preparedStatement.setString(5, imageFileName);
+			
+			result =  preparedStatement.executeUpdate();
+			if(result > 0) {
+				System.out.println("처리완료");
+			}
+			
 
-			resultSet = preparedStatement.executeQuery();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				connection.close();
-				preparedStatement.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
+		} 
+//		finally {
+//			try {
+//				connection.close();
+//				preparedStatement.close();
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//		}
 		
 		
 
@@ -63,6 +75,11 @@ public class ManagerDao implements IManager {
 			preparedStatement.setString(1, title);
 			preparedStatement.setInt(2, audience);
 			preparedStatement.setBigDecimal(3, sales);
+			
+			result = preparedStatement.executeUpdate();
+			if(result > 0) {
+				System.out.println("쿼리 실행완료");
+			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -86,7 +103,11 @@ public class ManagerDao implements IManager {
 			preparedStatement = connection.prepareStatement(deleteQuery);
 			preparedStatement.setString(1, title);
 
-			resultSet = preparedStatement.executeQuery();
+			result = preparedStatement.executeUpdate();
+			
+			if(result > 0) {
+				System.out.println("쿼리 실행 완료");
+			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -103,16 +124,20 @@ public class ManagerDao implements IManager {
 	
 	// 수정할 평점과 제목 받아서 평점 수정
 	@Override
-	public void updateStarScore(float starScore, String title) {
+	public void updateStarScore(Double starScore, String title) {
 
 		String updateQuery = "UPDATE movie SET starScore = ? WHERE title = ? ";
 
 		try {
 			preparedStatement = connection.prepareStatement(updateQuery);
-			preparedStatement.setFloat(1, starScore);
+			preparedStatement.setDouble(1, starScore);
 			preparedStatement.setString(2, title);
 
-			resultSet = preparedStatement.executeQuery();
+			result = preparedStatement.executeUpdate();
+			
+			if(result > 0) {
+				System.out.println("쿼리 실행 완료");
+			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -129,13 +154,20 @@ public class ManagerDao implements IManager {
 	
 	// 수정할 매출액과 제목 받아서 매출액 수정
 	@Override
-	public void updateSales(java.math.BigDecimal sales, String title) {
-		String updateQuery = "UPDATE score SET sales = ? WHERE title = ? ";
+	public void updateScore(int audience, BigDecimal sales, String title) {
+		String updateQuery = "UPDATE score SET audience = ? , sales = ? WHERE title = ? ";
 		
 		try {
 			preparedStatement = connection.prepareStatement(updateQuery);
-			preparedStatement.setBigDecimal(1, sales);
-			preparedStatement.setString(2, title);
+			preparedStatement.setInt(1, audience);
+			preparedStatement.setBigDecimal(2, sales);
+			preparedStatement.setString(3, title);
+			
+			result = preparedStatement.executeUpdate();
+			
+			if(result > 0) {
+				System.out.println("쿼리 실행 완료");
+			}
 				
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -150,6 +182,27 @@ public class ManagerDao implements IManager {
 
 	}
 
+	@Override
+	public Vector<String> loadListMoive() {
+		Vector<String> resultList = new Vector<String>();
+		String selectQuery = "SELECT * FROM movie ";
+
+
+		try {
+			preparedStatement = connection.prepareStatement(selectQuery);
+			rs = preparedStatement.executeQuery();
+			
+			while(rs.next()) {
+				resultList.add(rs.getString("title"));
+			}
+			
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return resultList;
+	}
 	
 
 }
